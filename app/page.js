@@ -2,7 +2,7 @@ import React from "react";
 
 const Page = () => {
   return (
-    <div className="text-white w-full  min-h-screen flex flex-col items-center">
+    <div className=" w-full  min-h-screen flex flex-col items-center">
       {/* Hero Section */}
       <div className="flex flex-col items-center justify-center h-[40vh] p-6 gap-4 text-center">
         <h1 className="text-5xl font-extrabold flex items-center gap-3">
