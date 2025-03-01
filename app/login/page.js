@@ -11,7 +11,7 @@ const Login = () => {
       </h1>
 
       {/* Login buttons section */}
-      <div className="flex flex-col gap-4 min-h-screen p-5 items-center">
+      <div className="flex flex-col gap-4 min-h-screen items-center peer">
         {/* Google Login Button */}
         <button className="cursor-pointer flex items-center justify-center w-full md:w-60 bg-white border border-gray-300 rounded-xl shadow-md py-3 text-base font-medium text-gray-800 hover:bg-gray-300 transition-all duration-300 focus:outline-2 focus:outline-offset-2 active:scale-105">
           <img src={"/google.svg"} alt="Google Logo" className="h-6 w-6 mr-3" />
@@ -44,13 +44,6 @@ const Login = () => {
           <img src={"/x.svg"} alt="Twitter Logo" className="h-6 w-6 mr-3" />
           <span>Continue with Twitter</span>
         </button>
-
-        {/* Duplicate Twitter Login Button - Consider removing if not intentional */}
-        <button className="cursor-pointer flex items-center justify-center w-full md:w-60 bg-white border border-gray-300 rounded-xl shadow-md py-3 text-base font-medium text-gray-800 hover:bg-gray-300 transition-all duration-300 focus:outline-2 focus:outline-offset-2 active:scale-105">
-          <img src={"/x.svg"} alt="Twitter Logo" className="h-6 w-6 mr-3" />
-          <span>Continue with Twitter</span>
-        </button>
-
         {/* Facebook Login Button */}
         <button className="cursor-pointer flex items-center justify-center w-full md:w-60 bg-white border border-gray-300 rounded-xl shadow-md py-3 text-base font-medium text-gray-800 hover:bg-gray-300 transition-all duration-300 focus:outline-2 focus:outline-offset-2 active:scale-105">
           <img
