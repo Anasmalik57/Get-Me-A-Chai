@@ -1,9 +1,16 @@
-import React from 'react'
+"use client";
+import React from "react";
+import { useRouter } from "next/navigation";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
+  const { data: session } = useSession();
+  if (!session) {
+    const router = useRouter();
+    router.push("/");
+  }
+  return <div>Dashboard</div>;
+};
 
-export default Dashboard
+export default Dashboard;
+// 1:20:00
