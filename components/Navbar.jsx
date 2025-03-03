@@ -24,14 +24,14 @@ const Navbar = () => {
             <div className="relative">
               <button onClick={() => setShowDropdown(!showDropdown)} onBlur={()=>setTimeout(() => {
                 setShowDropdown(false)
-              }, 100)} className="cursor-pointer flex gap-1.5 items-center justify-center  px-5 py-2 text-sm  font-semibold tracking-wide rounded-md bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-[0_0_8px_#3b82f6] hover:shadow-[0_0_12px_#3b82f6] hover:-translate-y-0.5 transition-all duration-300">
-               Welcome {session.user.name || "User"} <FaAngleDown />
+              }, 300)} className="cursor-pointer flex gap-1.5 items-center justify-center  px-5 py-2 text-sm  font-semibold tracking-wide rounded-md bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-[0_0_8px_#3b82f6] hover:shadow-[0_0_12px_#3b82f6] hover:-translate-y-0.5 transition-all duration-300">
+               Welcome {session.user.name} <FaAngleDown />
               </button>
 
               {showDropdown && (
-                <div className="absolute right-0 mt-2 w-48 bg-gray-800 text-white rounded-lg shadow-lg overflow-hidden *:cursor-pointer *:transition-all *:duration-100 *:ease-in">
-                  <Link href={"/dashboard"}><div className="block text-white px-5 py-2.5 text-sm hover:bg-gray-700 ">Dashboard</div></Link>
-                  <Link href="/settings"><div  className="block text-white px-5 py-2.5 text-sm hover:bg-gray-700 ">Your Page</div></Link>
+                <div className="absolute right-0 z-50 mt-2 w-48 bg-gray-800 text-white rounded-lg shadow-lg overflow-hidden *:cursor-pointer *:transition-all *:duration-100 *:ease-in">
+                  <Link href={"/dashboard"}><div className=" text-white px-5 py-2.5 text-sm hover:bg-gray-700 ">Dashboard</div></Link>
+                  <Link href="/settings"><div  className=" text-white px-5 py-2.5 text-sm hover:bg-gray-700 ">Your Page</div></Link>
                   <button onClick={() => signOut()} className="w-full text-left px-5 py-2.5 text-sm hover:bg-gradient-to-r hover:from-red-500 hover:to-orange-500 ">Sign out</button>
                 </div>
               )}
