@@ -31,12 +31,17 @@ const Username = ({ params }) => {
       <div className="payment container mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
         {/* Supporters Leaderboard */}
         <div className="supporters bg-slate-900 rounded-xl p-6 text-white shadow-lg">
-          <h2 className="text-xl font-semibold py-3 border-b border-gray-700">✨ Supporters</h2>
+          <h2 className="text-xl font-semibold py-3 border-b border-gray-700">
+            ✨ Supporters
+          </h2>
           <ul className="mt-4 space-y-3 w-full  max-h-[295px] overflow-y-scroll ">
-            <li className="bg-gray-800 px-4 py-3 rounded-lg shadow-md w-[calc(100%-18px)] ">🥇 Anas donated <span className="font-bold">$30</span> with a message</li>
-            <li className="bg-gray-800 px-4 py-3 rounded-lg shadow-md w-[calc(100%-18px)] ">🥈 Anas donated <span className="font-bold">$20</span> with a message</li>
-            <li className="bg-gray-800 px-4 py-3 rounded-lg shadow-md w-[calc(100%-18px)] ">🥉 Anas donated <span className="font-bold">$10</span> with a message</li>
-            
+            <li className="bg-gray-800 px-4 py-3 rounded-lg shadow-md w-[calc(100%-18px)] flex gap-2 items-center   ">
+              <img src="/avatar.gif" width={40} alt="" className="" />
+              <span className="">
+                Anas donated <span className="font-bold">$30</span> with a
+                message "I support you bro. Lots of 💝"
+              </span>
+            </li>
           </ul>
         </div>
 
@@ -54,18 +59,40 @@ const Username = ({ params }) => {
 
           {/* Input & Pay Button on Same Line */}
           <div className="flex flex-col gap-3">
-            <input type="number" placeholder="Enter Amount" className="no-spinner w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:outline-none"/>
-            <input type="number" placeholder="Enter Amount" className="no-spinner w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:outline-none"/>
-            <input type="number" placeholder="Enter Amount" className="no-spinner w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:outline-none"/>
-            <button className="cursor-pointer bg-gradient-to-r from-violet-500 to-purple-600 
-             hover:from-purple-500 hover:to-violet-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 ease-in shadow-md whitespace-nowrap focus:outline-2 focus:outline-violet-500 focus:outline-offset-2 ">Pay Now</button>
+            <input
+              type="number"
+              placeholder="Enter Name"
+              className="no-spinner w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+            />
+            <input
+              type="number"
+              placeholder="Enter Message"
+              className="no-spinner w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+            />
+            <input
+              type="number"
+              placeholder="Enter Amount"
+              className="no-spinner w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+            />
+            <button
+              className="cursor-pointer bg-gradient-to-r from-violet-500 to-purple-600 
+             hover:from-purple-500 hover:to-violet-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 ease-in shadow-md whitespace-nowrap focus:outline-2 focus:outline-violet-500 focus:outline-offset-2 "
+            >
+              Pay Now
+            </button>
           </div>
 
           {/* Quick Pay Options */}
           <div className="flex gap-3 justify-center">
-            <button className="cursor-pointer bg-gray-800 hover:bg-gray-700 text-white px-5 py-3 rounded-lg transition-all duration-200 ease-in outline-none">Pay $10</button>
-            <button className="cursor-pointer bg-gray-800 hover:bg-gray-700 text-white px-5 py-3 rounded-lg transition-all duration-200 ease-in outline-none">Pay $20</button>
-            <button className="cursor-pointer bg-gray-800 hover:bg-gray-700 text-white px-5 py-3 rounded-lg transition-all duration-200 ease-in outline-none">Pay $30</button>
+            <button className="cursor-pointer bg-gray-800 hover:bg-gray-700 text-white px-5 py-3 rounded-lg transition-all duration-200 ease-in outline-none">
+              Pay $10
+            </button>
+            <button className="cursor-pointer bg-gray-800 hover:bg-gray-700 text-white px-5 py-3 rounded-lg transition-all duration-200 ease-in outline-none">
+              Pay $20
+            </button>
+            <button className="cursor-pointer bg-gray-800 hover:bg-gray-700 text-white px-5 py-3 rounded-lg transition-all duration-200 ease-in outline-none">
+              Pay $30
+            </button>
           </div>
         </div>
       </div>
