@@ -4,19 +4,27 @@ import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 const Dashboard = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [form, setForm] = useState({});
 
   useEffect(() => {
-    if (!session) {
-      router.push("/login"); // Redirect to login page if not logged in
+    if (status === "unauthenticated") {
+      router.push("/login");
     }
-  }, [router, session]);
+  }, [router, status]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+  if (status === "loading") {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center ">
+  <div className="w-16 h-16 border-4 border-slate-300 border-t-purple-500 rounded-full animate-spin"></div>
+</div>
+
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#101828] text-white p-6">
@@ -35,16 +43,49 @@ const Dashboard = () => {
           <h2 className="text-xl font-semibold mb-4">Profile Information</h2>
           <div className="space-y-4">
             <div>
-              <label htmlFor="name" className="text-gray-400 cursor-pointer ">Name</label>
-              <input value={form.name ? form.name : ""} onChange={handleChange} type="text" name="name" id="name" placeholder="Enter Name" className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none" />
+              <label htmlFor="name" className="text-gray-400 cursor-pointer ">
+                Name
+              </label>
+              <input
+                value={form.name ? form.name : ""}
+                onChange={handleChange}
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Enter Name"
+                className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none"
+              />
             </div>
             <div>
-              <label htmlFor="email" className="text-gray-400 cursor-pointer">Email</label>
-              <input value={form.email ? form.email : ""} onChange={handleChange} type="email" name="email" id="email" placeholder="Enter Email" className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none" />
+              <label htmlFor="email" className="text-gray-400 cursor-pointer">
+                Email
+              </label>
+              <input
+                value={form.email ? form.email : ""}
+                onChange={handleChange}
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Enter Email"
+                className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none"
+              />
             </div>
             <div>
-              <label htmlFor="username" className="text-gray-400 cursor-pointer">Username</label>
-              <input value={form.username ? form.username : ""} onChange={handleChange} type="text" name="username" id="username" placeholder="Enter Username" className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none" />
+              <label
+                htmlFor="username"
+                className="text-gray-400 cursor-pointer"
+              >
+                Username
+              </label>
+              <input
+                value={form.username ? form.username : ""}
+                onChange={handleChange}
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Enter Username"
+                className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none"
+              />
             </div>
           </div>
         </div>
@@ -54,12 +95,36 @@ const Dashboard = () => {
           <h2 className="text-xl font-semibold mb-4">Profile & Cover</h2>
           <div className="space-y-4">
             <div>
-              <label htmlFor="profilepic" className="text-gray-400 cursor-pointer">Profile Picture</label>
-              <input value={form.profilepic ? form.profilepic : ""} onChange={handleChange} type="file" name="profilepic" id="profilepic" className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none" />
+              <label
+                htmlFor="profilepic"
+                className="text-gray-400 cursor-pointer"
+              >
+                Profile Picture
+              </label>
+              <input
+                value={form.profilepic ? form.profilepic : ""}
+                onChange={handleChange}
+                type="file"
+                name="profilepic"
+                id="profilepic"
+                className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none"
+              />
             </div>
             <div>
-              <label htmlFor="coverpic"className="text-gray-400 cursor-pointer">Cover Picture</label>
-              <input value={form.coverpic ? form.coverpic : ""} onChange={handleChange} type="file" name="coverpic" id="coverpic" className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none" />
+              <label
+                htmlFor="coverpic"
+                className="text-gray-400 cursor-pointer"
+              >
+                Cover Picture
+              </label>
+              <input
+                value={form.coverpic ? form.coverpic : ""}
+                onChange={handleChange}
+                type="file"
+                name="coverpic"
+                id="coverpic"
+                className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none"
+              />
             </div>
           </div>
         </div>
@@ -70,15 +135,46 @@ const Dashboard = () => {
         <h2 className="text-xl font-semibold mb-4">💳 Razorpay Credentials</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="razorpayid" className="text-gray-400 cursor-pointer">Razorpay ID</label>
-            <input value={form.razorpayid ? form.razorpayid : ""} onChange={handleChange} type="text" name="razorpayid" id="razorpayid" placeholder="Enter Razorpay ID" className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none" />
+            <label
+              htmlFor="razorpayid"
+              className="text-gray-400 cursor-pointer"
+            >
+              Razorpay ID
+            </label>
+            <input
+              value={form.razorpayid ? form.razorpayid : ""}
+              onChange={handleChange}
+              type="text"
+              name="razorpayid"
+              id="razorpayid"
+              placeholder="Enter Razorpay ID"
+              className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none"
+            />
           </div>
           <div>
-            <label htmlFor="razorpaysecret"className="text-gray-400 cursor-pointer">Razorpay Secret</label>
-            <input value={form.razorpaysecret ? form.razorpaysecret : ""} onChange={handleChange} type="text" name="razorpaysecret" id="razorpaysecret" placeholder="Enter Razorpay Secret" className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none"/>
+            <label
+              htmlFor="razorpaysecret"
+              className="text-gray-400 cursor-pointer"
+            >
+              Razorpay Secret
+            </label>
+            <input
+              value={form.razorpaysecret ? form.razorpaysecret : ""}
+              onChange={handleChange}
+              type="text"
+              name="razorpaysecret"
+              id="razorpaysecret"
+              placeholder="Enter Razorpay Secret"
+              className="w-full p-3 rounded-lg bg-gray-800 text-white outline-none"
+            />
           </div>
         </div>
-        <button type="submit" className="mt-4 bg-violet-500 hover:bg-violet-600 text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-md">Save Changes</button>
+        <button
+          type="submit"
+          className="mt-4 bg-violet-500 hover:bg-violet-600 text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-md"
+        >
+          Save Changes
+        </button>
       </div>
     </div>
   );

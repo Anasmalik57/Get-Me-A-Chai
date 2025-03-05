@@ -25,7 +25,7 @@ const Navbar = () => {
               <button onClick={() => setShowDropdown(!showDropdown)} onBlur={()=>setTimeout(() => {
                 setShowDropdown(false)
               }, 300)} className="cursor-pointer flex gap-1.5 items-center justify-center  px-5 py-2 text-sm  font-semibold tracking-wide rounded-md bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-[0_0_8px_#3b82f6] hover:shadow-[0_0_12px_#3b82f6] hover:-translate-y-0.5 transition-all duration-300">
-               Welcome {session.user.name} <FaAngleDown />
+               Welcome {session.user.email} <FaAngleDown />
               </button>
 
               {showDropdown && (
