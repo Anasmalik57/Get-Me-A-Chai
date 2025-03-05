@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const Page = () => {
@@ -8,7 +9,7 @@ const Page = () => {
         <h1 className="text-5xl font-extrabold flex items-center gap-3">
           Buy Me a Chai
           <span className="drop-shadow-[0_0_15px_rgba(150,114,230)]">
-            <img src="/chai.gif" className="w-24" alt="chai" />
+            <Image width={24} height={24} src="/chai.gif" className="w-24" alt="chai" />
           </span>
         </h1>
         <p className="tracking-wide capitalize max-w-xl text-gray-300 text-lg">
@@ -43,7 +44,7 @@ const Page = () => {
               key={index}
               className="flex flex-col items-center space-y-4 bg-gray-800 p-6 rounded-xl shadow-lg"
             >
-              <img
+              <Image width={24} height={24}
                 src={item.img}
                 className="w-24 bg-slate-600 rounded-full p-4"
                 alt="icon"

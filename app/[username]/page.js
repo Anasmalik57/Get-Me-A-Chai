@@ -1,16 +1,17 @@
+import Image from "next/image";
 import React from "react";
 
 const Username = ({ params }) => {
   return (
     <>
       <div className="cover w-full relative">
-        <img
+        <Image
           className="w-full object-cover max-h-[350px]"
           src="https://c10.patreonusercontent.com/4/patreon-media/p/campaign/1524784/ccee2a64f0894afab47cfaecdc03373b/eyJ3IjoxNjAwLCJ3ZSI6MX0%3D/3.jpg?token-time=1743724800&token-hash=HYjOm2XUzeuc7LyIQafDnFvGX61efBiP0NcDWOfB-cM%3D"
           alt="Cover-Image"
         />
         <div className="profilePic absolute -bottom-[55px] left-[46%]  overflow-hidden rounded-full bg-current p-1 border border-white  ">
-          <img
+          <Image
             width={110}
             height={110}
             className="border-2 border-black rounded-full "
@@ -36,7 +37,7 @@ const Username = ({ params }) => {
           </h2>
           <ul className="mt-4 space-y-3 w-full  max-h-[295px] overflow-y-scroll ">
             <li className="bg-gray-800 px-4 py-3 rounded-lg shadow-md w-[calc(100%-18px)] flex gap-2 items-center   ">
-              <img src="/avatar.gif" width={40} alt="" className="" />
+              <Image src="/avatar.gif" width={40} alt="" className="" />
               <span className="">
                 Anas donated <span className="font-bold">$30</span> with a
                 message "I support you bro. Lots of 💝"
@@ -101,3 +102,4 @@ const Username = ({ params }) => {
 };
 
 export default Username;
+// 1:49:30
