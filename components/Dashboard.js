@@ -171,7 +171,7 @@ const Dashboard = () => {
         </div>
         <button
           type="submit"
-          className="mt-4 bg-violet-500 hover:bg-violet-600 text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-md"
+          className="mt-4 w-full cursor-pointer bg-violet-500 hover:bg-violet-600 text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-md"
         >
           Save Changes
         </button>
