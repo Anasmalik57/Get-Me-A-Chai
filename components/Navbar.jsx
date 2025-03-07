@@ -31,7 +31,7 @@ const Navbar = () => {
               {showDropdown && (
                 <div className="absolute right-0 z-50 mt-2 w-48 bg-gray-800 text-white rounded-lg shadow-lg overflow-hidden *:cursor-pointer *:transition-all *:duration-100 *:ease-in">
                   <Link href={"/dashboard"}><div className=" text-white px-5 py-2.5 text-sm hover:bg-gray-700 ">Dashboard</div></Link>
-                  <Link href="/settings"><div  className=" text-white px-5 py-2.5 text-sm hover:bg-gray-700 ">Your Page</div></Link>
+                  <Link href={`/${session.user.name}`}><div  className=" text-white px-5 py-2.5 text-sm hover:bg-gray-700 ">Your Page</div></Link>
                   <button onClick={() => signOut()} className="w-full text-left px-5 py-2.5 text-sm hover:bg-gradient-to-r hover:from-red-500 hover:to-orange-500 ">Sign out</button>
                 </div>
               )}
