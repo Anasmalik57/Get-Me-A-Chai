@@ -1,23 +1,37 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Script from "next/script";
-import { initiate } from "@/actions/useractions";
+import { fetchPayments, fetchUser, initiate } from "@/actions/useractions";
 import { useSession } from "next-auth/react";
 
 const PaymentPage = ({ username }) => {
   const { data: session } = useSession();
   const [paymentform, setPaymentform] = useState({});
+  const [payments, setPayments] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const handleChange = (e) => {
     setPaymentform({ ...paymentform, [e.target.name]: e.target.value });
-      // console.log(paymentform);
+    // console.log(paymentform);
   };
-
+  //
+  const getData = async () => {
+    let u = await fetchUser(username);
+    setCurrentUser(u);
+    let dbpayments = await fetchPayments(username);
+    setPayments(dbpayments);
+    console.log(u, dbpayments);
+  };
+  // Paying Functionality
   const pay = async (amount) => {
     // Get the orderId
     console.log(username);
     let a = await initiate(amount, username, paymentform);
-    
+
     let orderId = a.id;
     var options = {
       key: process.env.NEXT_PUBLIC_KEY_ID, // Enter the Key ID generated from the Dashboard
@@ -78,14 +92,26 @@ const PaymentPage = ({ username }) => {
           <h2 className="text-xl font-semibold py-3 border-b border-gray-700">
             ✨ Supporters
           </h2>
-          <ul className="mt-4 space-y-3 w-full  max-h-[295px] overflow-y-scroll ">
-            <li className="bg-gray-800 px-4 py-3 rounded-lg shadow-md w-[calc(100%-18px)] flex gap-2 items-center   ">
-              <img src="/avatar.gif" width={40} alt="" className="" />
-              <span className="">
-                Anas donated <span className="font-bold">₹30</span> with a
-                message "I support you bro. Lots of 💝"
-              </span>
-            </li>
+          <ul className="mt-4 space-y-3 w-full  max-h-[295px] overflow-y-scroll scroll-smooth ">
+            {payments.map((p, i) => {
+              return (
+                <li
+                  key={i}
+                  className="bg-gray-800 px-4 py-3 rounded-lg shadow-md w-[calc(100%-18px)] flex gap-2 items-center   "
+                >
+                  <img src="/avatar.gif" width={40} alt="" className="" />
+                  <span className="">
+                    {p.name} donated{" "}
+                    <span className="font-bold">₹{p.amount}</span> with a
+                    message "
+                    <span className="italic tracking-wide font-semibold">
+                      {p.message}
+                    </span>
+                    "
+                  </span>
+                </li>
+              );
+            })}
           </ul>
         </div>
 
@@ -128,6 +154,9 @@ const PaymentPage = ({ username }) => {
               className="no-spinner w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:outline-none"
             />
             <button
+              onClick={() => {
+                pay(paymentform.amount);
+              }}
               className="cursor-pointer bg-gradient-to-r from-violet-500 to-purple-600 
              hover:from-purple-500 hover:to-violet-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 ease-in shadow-md whitespace-nowrap focus:outline-2 focus:outline-violet-500 focus:outline-offset-2 "
             >
