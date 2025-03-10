@@ -29,7 +29,7 @@ export const initiate = async (amount, to_username, paymentform) => {
 
   return x;
 };
-
+// for fetching user data
 export const fetchUser = async (username) => {
   await connectDB();
   console.log(username);
@@ -41,7 +41,7 @@ export const fetchUser = async (username) => {
   u._id = u._id.toString(); // `_id` ko string me convert kar diya
   return u;
 };
-
+// for fetching user details
 export const fetchPayments = async (username) => {
   await connectDB();
   // find all payments sorted by decreasing order of amount and flatten object ids
@@ -51,4 +51,18 @@ export const fetchPayments = async (username) => {
     _id: payment._id.toString(), // `_id` ko string me convert kar diya
   }));
   return p;
+};
+
+export const updateProfile = async (data, old_username) => {
+  await connectDB();
+  let ndata = Object.fromEntries(data);
+  // If the username is being updated , check if the username is available or not
+  if (old_username !== ndata.username) {
+    let u = await User.findOne({ username: ndata.username });
+    if (u) {
+      return { error: "Username already exists" };
+    }
+  }
+  // else update one
+  await User.updateOne({ email: ndata.email }, ndata);
 };
