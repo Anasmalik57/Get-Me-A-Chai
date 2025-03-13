@@ -169,7 +169,7 @@ const Dashboard = () => {
               <input
                 value={form.razorpayid ? form.razorpayid : ""}
                 onChange={handleChange}
-                type="text"
+                type="password"
                 name="razorpayid"
                 id="razorpayid"
                 placeholder="Enter Razorpay ID"
@@ -186,7 +186,7 @@ const Dashboard = () => {
               <input
                 value={form.razorpaysecret ? form.razorpaysecret : ""}
                 onChange={handleChange}
-                type="text"
+                type="password"
                 name="razorpaysecret"
                 id="razorpaysecret"
                 placeholder="Enter Razorpay Secret"

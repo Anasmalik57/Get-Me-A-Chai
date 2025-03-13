@@ -3,15 +3,34 @@ import React, { useEffect, useState } from "react";
 import Script from "next/script";
 import { fetchPayments, fetchUser, initiate } from "@/actions/useractions";
 import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import { ToastContainer } from "react-toastify";
 
 const PaymentPage = ({ username }) => {
   const { data: session } = useSession();
   const [paymentform, setPaymentform] = useState({});
   const [payments, setPayments] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     getData();
+  }, []);
+
+  useEffect(() => {
+    if (searchParams.get("paymentdone") == true && session) {
+      toast.success("Payment Done 😄", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Flip,
+      });
+    }
   }, []);
 
   const handleChange = (e) => {
@@ -24,7 +43,7 @@ const PaymentPage = ({ username }) => {
     setCurrentUser(u);
     let dbpayments = await fetchPayments(username);
     setPayments(dbpayments);
-    console.log(u, dbpayments);
+    // console.log(u, dbpayments);
   };
   // Paying Functionality
   const pay = async (amount) => {
@@ -34,7 +53,7 @@ const PaymentPage = ({ username }) => {
 
     let orderId = a.id;
     var options = {
-      key: process.env.NEXT_PUBLIC_KEY_ID, // Enter the Key ID generated from the Dashboard
+      key: currentUser.razorpayid, // Enter the Key ID generated from the Dashboard
       amount: amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
       currency: "INR",
       name: "Get Me A Chai", //your business name
@@ -60,21 +79,34 @@ const PaymentPage = ({ username }) => {
   };
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={"Flip"}
+      />
       <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
 
       {/* User Profile */}
       <div className="cover w-full relative">
         <img
           className="w-full object-cover max-h-[350px]"
-          src="https://c10.patreonusercontent.com/4/patreon-media/p/campaign/1524784/ccee2a64f0894afab47cfaecdc03373b/eyJ3IjoxNjAwLCJ3ZSI6MX0%3D/3.jpg?token-time=1743724800&token-hash=HYjOm2XUzeuc7LyIQafDnFvGX61efBiP0NcDWOfB-cM%3D"
+          src={currentUser.coverpic}
           alt="Cover-Image"
         />
-        <div className="profilePic absolute -bottom-[55px] left-[46%]  overflow-hidden rounded-full bg-current p-1 border border-white  ">
+        <div className="profilePic absolute -bottom-[55px] left-[46%]  overflow-hidden rounded-full bg-current p-[3px]">
           <img
             width={110}
             height={110}
-            className="border-2 border-black rounded-full "
-            src="https://c10.patreonusercontent.com/4/patreon-media/p/campaign/1524784/3576659026644fc9a350ba86703e176c/eyJoIjoxMDgwLCJ3IjoxMDgwfQ%3D%3D/1.png?token-time=1742256000&token-hash=hgNdDDcaIM8rOOzg3Z6mlh81Kr9ge6yvWByKFwTII3A%3D"
+            className="border-2 border-black rounded-full aspect-square "
+            src={currentUser.profilepic}
             alt="Profilepic"
           />
         </div>
@@ -93,6 +125,11 @@ const PaymentPage = ({ username }) => {
             ✨ Supporters
           </h2>
           <ul className="mt-4 space-y-3 w-full  max-h-[295px] overflow-y-scroll scroll-smooth ">
+            {payments.length == 0 && (
+              <li className="text-gray-400 w-full h-64 flex justify-center items-center text-3xl font-semibold tracking-wider">
+                No Payments Yet
+              </li>
+            )}
             {payments.map((p, i) => {
               return (
                 <li
@@ -101,10 +138,14 @@ const PaymentPage = ({ username }) => {
                 >
                   <img src="/avatar.gif" width={40} alt="" className="" />
                   <span className="">
-                    {p.name} donated{" "}
-                    <span className="font-bold">₹{p.amount}</span> with a
-                    message "
-                    <span className="italic tracking-wide font-semibold">
+                    <span className="font-bold text-indigo-400">{p.name}</span>{" "}
+                    donated
+                    <span className="font-bold text-green-500">
+                      {" "}
+                      ₹{p.amount}
+                    </span>{" "}
+                    with a message "
+                    <span className="italic tracking-wide font-semibold border-b-2 border-b-indigo-400 ">
                       {p.message}
                     </span>
                     "
@@ -158,7 +199,10 @@ const PaymentPage = ({ username }) => {
                 pay(paymentform.amount);
               }}
               className="cursor-pointer bg-gradient-to-r from-violet-500 to-purple-600 
-             hover:from-purple-500 hover:to-violet-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 ease-in shadow-md whitespace-nowrap focus:outline-2 focus:outline-violet-500 focus:outline-offset-2 "
+             hover:from-purple-500 hover:to-violet-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 ease-in shadow-md whitespace-nowrap focus:outline-2 focus:outline-violet-500 focus:outline-offset-2 disabled:cursor-not-allowed"
+              disabled={
+                paymentform.name?.length < 3 || paymentform.message?.length < 3
+              }
             >
               Pay Now
             </button>

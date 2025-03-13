@@ -45,7 +45,7 @@ export const fetchUser = async (username) => {
 export const fetchPayments = async (username) => {
   await connectDB();
   // find all payments sorted by decreasing order of amount and flatten object ids
-  let p = await Payment.find({ to_user: username }).sort({ amount: -1 }).lean();
+  let p = await Payment.find({ to_user: username,done: true }).sort({ amount: -1 }).lean();
   p = p.map((payment) => ({
     ...payment,
     _id: payment._id.toString(), // `_id` ko string me convert kar diya
