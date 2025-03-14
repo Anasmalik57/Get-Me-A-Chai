@@ -69,11 +69,19 @@ export const updateProfile = async (data, old_username) => {
       return { error: "Username already exists" };
     }
     await User.updateOne({ email: ndata.email }, ndata);
-    // Now update al the usernames in the Payments Table
-    await Payment.updateMany({to_user: old_username}, {to_user: ndata.username})
+    // Now update all the usernames in the Payments Table
+    await Payment.updateMany(
+      { to_user: old_username },
+      { to_user: ndata.username }
+    );
   }
   // else update one
   else {
     await User.updateOne({ email: ndata.email }, ndata);
   }
+  // ye tab chalani jab saare user update karne ho payment model ke chahe wo apne ho ya dusre ke
+  // await Payment.updateMany(
+  //   {},
+  //   { to_user: ndata.username }
+  // );
 };

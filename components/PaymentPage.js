@@ -7,11 +7,11 @@ import { useSearchParams } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import { Zoom } from "react-toastify";
 import { useRouter } from "next/navigation";
-import CountUp from "./countUp";
+import CountUp from "./CountUp";
 
 const PaymentPage = ({ username }) => {
   // const { data: session } = useSession();
-  const [paymentform, setPaymentform] = useState({});
+  const [paymentform, setPaymentform] = useState({name: "", message: "", amount: ""});
   const [payments, setPayments] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const searchParams = useSearchParams();
@@ -237,7 +237,7 @@ const PaymentPage = ({ username }) => {
               className="cursor-pointer bg-gradient-to-r from-violet-500 to-purple-600 
              hover:from-purple-500 hover:to-violet-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 ease-in shadow-md whitespace-nowrap focus:outline-2 focus:outline-violet-500 focus:outline-offset-2 disabled:cursor-not-allowed"
               disabled={
-                paymentform.name?.length < 3 || paymentform.message?.length < 3
+                paymentform.name?.length < 3 || paymentform.message?.length < 3 || paymentform.amount?.length < 1
               }
             >
               Pay Now

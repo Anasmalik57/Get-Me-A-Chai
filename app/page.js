@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const Page = () => {
@@ -15,13 +16,17 @@ const Page = () => {
           A crowdfunding platform for creators. Get funded by your fans and
           followers.
         </p>
-        <div className="flex gap-6">
-          <button className="cursor-pointer px-8 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 hover:to-indigo-700 transition-all duration-300 shadow-xl shadow-blue-500/40 focus:ring-4 focus:ring-blue-400 focus:outline-none">
-            Start Now
-          </button>
-          <button className="cursor-pointer px-8 py-3 text-lg font-semibold rounded-lg bg-gray-800 border border-gray-700 hover:bg-gray-700 transition-all duration-300 shadow-lg focus:ring-4 focus:ring-gray-500 focus:outline-none">
-            Read More
-          </button>
+        <div className="flex gap-6 **:text-white">
+          <Link href={"/login"}>
+            <button className="cursor-pointer px-8 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 hover:to-indigo-700 transition-all duration-300 shadow-xl shadow-blue-500/40 focus:ring-4 focus:ring-blue-400 focus:outline-none">
+              Start Now
+            </button>
+          </Link>
+          <Link href={"/about"}>
+            <button className="cursor-pointer px-8 py-3 text-lg font-semibold rounded-lg bg-gray-800 border border-gray-700 hover:bg-gray-700 transition-all duration-300 shadow-lg focus:ring-4 focus:ring-gray-500 focus:outline-none">
+              Read More
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -64,7 +69,15 @@ const Page = () => {
         <h2 className="text-3xl font-bold capitalize mb-10">
           Learn More About Us!
         </h2>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/4kCx1R_V8A0?si=SWdwMsBalufEjxkP" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/4kCx1R_V8A0?si=SWdwMsBalufEjxkP"
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        ></iframe>
       </div>
     </div>
   );
