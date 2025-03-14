@@ -4,22 +4,25 @@ import Script from "next/script";
 import { fetchPayments, fetchUser, initiate } from "@/actions/useractions";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { Zoom } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const PaymentPage = ({ username }) => {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   const [paymentform, setPaymentform] = useState({});
   const [payments, setPayments] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     getData();
   }, []);
 
   useEffect(() => {
-    if (searchParams.get("paymentdone") == true && session) {
-      toast.success("Payment Done 😄", {
+    if (searchParams.get("paymentdone") === "true") {
+      toast.success("Thanks for Your Support 😃", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -28,10 +31,11 @@ const PaymentPage = ({ username }) => {
         draggable: true,
         progress: undefined,
         theme: "light",
-        transition: Flip,
+        transition: Zoom,
       });
     }
-  }, []);
+    router.push(`/${username}`)
+  }, [searchParams]); // searchParams ko dependency list me add kar do
 
   const handleChange = (e) => {
     setPaymentform({ ...paymentform, [e.target.name]: e.target.value });
@@ -90,7 +94,7 @@ const PaymentPage = ({ username }) => {
         draggable
         pauseOnHover
         theme="light"
-        transition={"Flip"}
+        transition={Zoom}
       />
       <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
 
