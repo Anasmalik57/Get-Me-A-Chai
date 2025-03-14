@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "framer-motion": "^12.5.0",
     "mongoose": "^8.12.1",
     "next": "15.2.0",
     "next-auth": "^4.24.11",

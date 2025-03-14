@@ -20,14 +20,18 @@ export const POST = async (req) => {
       message: "Order ID not Found",
     });
   }
+  // fetch the secret of the user who is getting the payment
+  let user = await User.findOne({ username: p.to_user });
+  const secret = user.razorpaysecret;
+
   // verify the payment
   let xx = validatePaymentVerification(
     {
-      "order_id": body.razorpay_order_id,
-      "payment_id": body.razorpay_payment_id,
+      order_id: body.razorpay_order_id,
+      payment_id: body.razorpay_payment_id,
     },
     body.razorpay_signature,
-    process.env.KEY_SECRET
+    secret
   );
 
   if (xx) {

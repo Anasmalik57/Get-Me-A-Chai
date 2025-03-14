@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import { Zoom } from "react-toastify";
 import { useRouter } from "next/navigation";
+import CountUp from "./countUp";
 
 const PaymentPage = ({ username }) => {
   // const { data: session } = useSession();
@@ -18,15 +19,15 @@ const PaymentPage = ({ username }) => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [username]);
 
   useEffect(() => {
     if (searchParams.get("paymentdone") === "true") {
       toast.success("Thanks for Your Support 😃", {
-        position: "top-right",
+        position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,
-        closeOnClick: false,
+        closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
@@ -34,7 +35,7 @@ const PaymentPage = ({ username }) => {
         transition: Zoom,
       });
     }
-    router.push(`/${username}`)
+    router.push(`/${username}`);
   }, [searchParams]); // searchParams ko dependency list me add kar do
 
   const handleChange = (e) => {
@@ -52,7 +53,7 @@ const PaymentPage = ({ username }) => {
   // Paying Functionality
   const pay = async (amount) => {
     // Get the orderId
-    console.log(username);
+    // console.log(username);
     let a = await initiate(amount, username, paymentform);
 
     let orderId = a.id;
@@ -81,6 +82,12 @@ const PaymentPage = ({ username }) => {
     var rzp1 = new Razorpay(options);
     rzp1.open();
   };
+
+  let totalPayment = payments.reduce(
+    (a, b) => parseInt(a) + parseInt(b.amount),
+    0
+  );
+
   return (
     <>
       <ToastContainer
@@ -101,8 +108,8 @@ const PaymentPage = ({ username }) => {
       {/* User Profile */}
       <div className="cover w-full relative">
         <img
-          className="w-full object-cover max-h-[350px]"
-          src={currentUser.coverpic}
+          className="w-full object-cover min-h-[349px] bg-slate-900 max-h-[350px]"
+          src={currentUser?.coverpic}
           alt="Cover-Image"
         />
         <div className="profilePic absolute -bottom-[55px] left-[46%]  overflow-hidden rounded-full bg-current p-[3px]">
@@ -110,16 +117,42 @@ const PaymentPage = ({ username }) => {
             width={110}
             height={110}
             className="border-2 border-black rounded-full aspect-square "
-            src={currentUser.profilepic}
+            src={currentUser?.profilepic}
             alt="Profilepic"
           />
         </div>
       </div>
       <div className="info flex justify-center items-center mt-16 pb-4 w-full flex-col gap-2">
         <div className="font-bold tracking-wide lowercase">@{username}</div>
-        <div className="text-slate-400">Created Animated Art for VTT's</div>
         <div className="text-slate-400">
-          9173 members. 82 posts. ₹46545/released
+          Let's help <span className="font-semibold ">{username} </span>
+          get a chai
+        </div>
+        <div className="text-slate-400">
+          <span className="font-semibold text-violet-500 ">
+            <CountUp
+              from={0}
+              to={payments.length}
+              separator=","
+              direction="up"
+              duration={1}
+              className="count-up-text"
+            />{" "}
+            Payments
+          </span>
+          . Raised{" "}
+          <span className="font-semibold text-green-400 ">
+            ₹
+            <CountUp
+              from={0}
+              to={totalPayment}
+              separator=","
+              direction="up"
+              duration={1}
+              className="count-up-text"
+            />
+          </span>
+          .
         </div>
       </div>
       <div className="payment container mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
@@ -142,12 +175,11 @@ const PaymentPage = ({ username }) => {
                 >
                   <img src="/avatar.gif" width={40} alt="" className="" />
                   <span className="">
-                    <span className="font-bold text-indigo-400">{p.name}</span>{" "}
-                    donated
+                    <span className="font-bold text-indigo-400">{p.name} </span>
+                    donated{" "}
                     <span className="font-bold text-green-500">
-                      {" "}
-                      ₹{p.amount}
-                    </span>{" "}
+                      ₹{p.amount}{" "}
+                    </span>
                     with a message "
                     <span className="italic tracking-wide font-semibold border-b-2 border-b-indigo-400 ">
                       {p.message}

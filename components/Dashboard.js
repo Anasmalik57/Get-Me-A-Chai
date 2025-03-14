@@ -39,16 +39,17 @@ const Dashboard = () => {
     let a = await updateProfile(e, form.username);
     // alert("updated");
     toast.success("Profile Updated 🔥", {
-      position: "top-right",
+      position: "bottom-left",
       autoClose: 3000,
       hideProgressBar: false,
-      closeOnClick: false,
+      closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
       theme: "light",
       transition: Zoom,
     });
+    console.log(form.username)
   };
 
   // ///////////////////////////// //

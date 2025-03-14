@@ -21,7 +21,7 @@ const authoptions = NextAuth({
         // }
         // check if the use is already exists in the database
         const currentUser = await User.findOne({ email: user.email });
-        console.log(currentUser);
+        // console.log(currentUser);
         // if user not already exists then create it
         if (!currentUser) {
           const newUser = new User({
@@ -29,7 +29,7 @@ const authoptions = NextAuth({
             username: user.email.split("@")[0],
           });
           await newUser.save();
-          console.log(newUser);
+          // console.log(newUser);
         } 
         return true;
       }
@@ -43,7 +43,7 @@ const authoptions = NextAuth({
       if (dbUSer) {
         session.user.name = dbUSer.username;
       }
-      console.log(dbUSer);
+      // console.log(dbUSer);
       
       return session;
     },
