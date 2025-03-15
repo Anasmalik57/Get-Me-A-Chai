@@ -88,7 +88,7 @@ A **modern, elegant, and professional** crowdfunding platform that enables devel
 
 2️⃣ **Install Dependencies**  
 ```bash
-npm install  || npm i
+npm install  # or yarn install
 ```
 
 3️⃣ **Configure Environment Variables**  
