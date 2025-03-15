@@ -154,8 +154,8 @@ This project is licensed under the **MIT License**. Feel free to modify and use 
 ## 📬 Contact
 
 For any queries, suggestions, or feedback:
-- **Email**: [youremail@example.com](mailto:itsanas474@gmail.com)
-- **GitHub**: [YourUsername](https://github.com/Anasmalik57)
+- **Email**: [tsanas474@gmail.com](mailto:itsanas474@gmail.com)
+- **GitHub**: [Anasmalik57](https://github.com/Anasmalik57)
 
 ❤️ _Thank you for using Get-Me-A-Chai! We hope it helps you earn more chai (and more time to code!)._ ☕🚀
 
