@@ -8,6 +8,7 @@ const Login = () => {
   const router = useRouter();
 
   useEffect(() => {
+    document.title = "Login - Get Me A Chai";
     if (session) {
       router.push("/dashboard");
     }
@@ -16,7 +17,7 @@ const Login = () => {
     <div className="container mx-auto">
       {/* Page heading */}
       <h1 className="capitalize text-center text-4xl py-6 font-bold tracking-wide ">
-        Login to Get your chai
+        Login to Get Started
       </h1>
 
       {/* Login buttons section */}

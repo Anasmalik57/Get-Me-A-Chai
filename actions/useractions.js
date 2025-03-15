@@ -51,6 +51,7 @@ export const fetchPayments = async (username) => {
   // find all payments sorted by decreasing order of amount and flatten object ids
   let p = await Payment.find({ to_user: username, done: true })
     .sort({ amount: -1 })
+    .limit(10)
     .lean();
   p = p.map((payment) => ({
     ...payment,

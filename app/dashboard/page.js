@@ -10,3 +10,8 @@ const page = () => {
 };
 
 export default page;
+
+// Static metadata
+export const metadata = {
+  title: "Dashboard - Get Me A Chai"
+};

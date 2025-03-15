@@ -10,12 +10,12 @@ import { useRouter } from "next/navigation";
 import CountUp from "./CountUp";
 
 const PaymentPage = ({ username }) => {
-  // const { data: session } = useSession();
-  const [paymentform, setPaymentform] = useState({name: "", message: "", amount: ""});
+  const [paymentform, setPaymentform] = useState({ name: "", message: "", amount: "" });
   const [payments, setPayments] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     getData();
@@ -36,41 +36,36 @@ const PaymentPage = ({ username }) => {
       });
     }
     router.push(`/${username}`);
-  }, [searchParams]); // searchParams ko dependency list me add kar do
+  }, [searchParams]);
 
   const handleChange = (e) => {
     setPaymentform({ ...paymentform, [e.target.name]: e.target.value });
-    // console.log(paymentform);
   };
-  //
+
   const getData = async () => {
     let u = await fetchUser(username);
     setCurrentUser(u);
     let dbpayments = await fetchPayments(username);
     setPayments(dbpayments);
-    // console.log(u, dbpayments);
   };
+
   // Paying Functionality
   const pay = async (amount) => {
-    // Get the orderId
-    // console.log(username);
     let a = await initiate(amount, username, paymentform);
-
     let orderId = a.id;
     var options = {
-      key: currentUser.razorpayid, // Enter the Key ID generated from the Dashboard
-      amount: amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      key: currentUser.razorpayid,
+      amount: amount,
       currency: "INR",
-      name: "Get Me A Chai", //your business name
+      name: "Get Me A Chai",
       description: "Test Transaction",
       image: "https://example.com/your_logo",
-      order_id: orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      order_id: orderId,
       callback_url: `${process.env.NEXT_PUBLIC_URL}/api/razorpay`,
       prefill: {
-        //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
-        name: "Gaurav Kumar", //your customer's name
+        name: "Gaurav Kumar",
         email: "gaurav.kumar@example.com",
-        contact: "9000090000", //Provide the customer's phone number for better conversion rates
+        contact: "9000090000",
       },
       notes: {
         address: "Razorpay Corporate Office",
@@ -83,10 +78,15 @@ const PaymentPage = ({ username }) => {
     rzp1.open();
   };
 
-  let totalPayment = payments.reduce(
-    (a, b) => parseInt(a) + parseInt(b.amount),
-    0
-  );
+  let totalPayment = payments.reduce((a, b) => parseInt(a) + parseInt(b.amount), 0);
+
+  if (status === "loading") {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center">
+        <div className="w-16 h-16 border-8 border-slate-300 border-x-purple-500 border-y-slate-100 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -105,14 +105,14 @@ const PaymentPage = ({ username }) => {
       />
       <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
 
-      {/* User Profile */}
-      <div className="cover w-full relative">
+      {/* Cover & Profile Section */}
+      <div className="w-full relative">
         <img
-          className="w-full object-cover min-h-[349px] bg-slate-900 max-h-[350px]"
+          className="w-full object-cover bg-slate-900 min-h-[300px] sm:min-h-[349px] max-h-[350px]"
           src={currentUser?.coverpic}
           alt="Cover-Image"
         />
-        <div className="profilePic absolute -bottom-[55px] left-[46%]  overflow-hidden rounded-full bg-current p-[3px]">
+        <div className="profilePic absolute -bottom-[55px] left-[38%] md:left-[46%]  overflow-hidden rounded-full bg-current p-[3px] sm:-bottom-16 ">
           <img
             width={110}
             height={110}
@@ -122,14 +122,17 @@ const PaymentPage = ({ username }) => {
           />
         </div>
       </div>
-      <div className="info flex justify-center items-center mt-16 pb-4 w-full flex-col gap-2">
-        <div className="font-bold tracking-wide lowercase">@{username}</div>
-        <div className="text-slate-400">
-          Let's help <span className="font-semibold ">{username} </span>
-          get a chai
+
+      {/* User Info */}
+      <div className="info flex flex-col items-center mt-20 pb-4 gap-2 w-full">
+        <div className="font-bold tracking-wide lowercase text-base sm:text-lg">
+          @{username}
         </div>
-        <div className="text-slate-400">
-          <span className="font-semibold text-violet-500 ">
+        <div className="text-slate-400 text-sm sm:text-base">
+          Let's help <span className="font-semibold">{username}</span> get a chai
+        </div>
+        <div className="text-slate-400 text-sm sm:text-base">
+          <span className="font-semibold text-violet-500">
             <CountUp
               from={0}
               to={payments.length}
@@ -141,7 +144,7 @@ const PaymentPage = ({ username }) => {
             Payments
           </span>
           . Raised{" "}
-          <span className="font-semibold text-green-400 ">
+          <span className="font-semibold text-green-400">
             ₹
             <CountUp
               from={0}
@@ -155,56 +158,54 @@ const PaymentPage = ({ username }) => {
           .
         </div>
       </div>
-      <div className="payment container mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+
+      {/* Payment Container */}
+      <div className="payment container mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-4 sm:p-6">
         {/* Supporters Leaderboard */}
-        <div className="supporters bg-slate-900 rounded-xl p-6 text-white shadow-lg">
-          <h2 className="text-xl font-semibold py-3 border-b border-gray-700">
-            ✨ Supporters
+        <div className="supporters bg-slate-900 rounded-xl p-4 sm:p-6 text-white shadow-lg">
+          <h2 className="text-lg sm:text-xl font-semibold py-3 border-b border-gray-700">
+            ✨ Top 10 Supporters
           </h2>
-          <ul className="mt-4 space-y-3 w-full  max-h-[295px] overflow-y-scroll scroll-smooth ">
-            {payments.length == 0 && (
-              <li className="text-gray-400 w-full h-64 flex justify-center items-center text-3xl font-semibold tracking-wider">
+          <ul className="mt-4 space-y-3 max-h-72 overflow-y-scroll scroll-smooth">
+            {payments.length === 0 && (
+              <li className="text-gray-400 w-full h-48 flex justify-center items-center text-2xl font-semibold tracking-wider">
                 No Payments Yet
               </li>
             )}
-            {payments.map((p, i) => {
-              return (
-                <li
-                  key={i}
-                  className="bg-gray-800 px-4 py-3 rounded-lg shadow-md w-[calc(100%-18px)] flex gap-2 items-center   "
-                >
-                  <img src="/avatar.gif" width={40} alt="" className="" />
-                  <span className="">
-                    <span className="font-bold text-indigo-400">{p.name} </span>
-                    donated{" "}
-                    <span className="font-bold text-green-500">
-                      ₹{p.amount}{" "}
-                    </span>
-                    with a message "
-                    <span className="italic tracking-wide font-semibold border-b-2 border-b-indigo-400 ">
-                      {p.message}
-                    </span>
-                    "
+            {payments.map((p, i) => (
+              <li
+                key={i}
+                className="bg-gray-800 px-3 py-2 sm:px-4 sm:py-3 rounded-lg shadow-md flex gap-2 items-center"
+              >
+                <img src="/avatar.gif" width={30} alt="" className="rounded-full" />
+                <span>
+                  <span className="font-bold text-indigo-400">{p.name} </span>
+                  donated{" "}
+                  <span className="font-bold text-green-500">₹{p.amount} </span>
+                  with a message "
+                  <span className="italic tracking-wide font-semibold border-b border-indigo-400">
+                    {p.message}
                   </span>
-                </li>
-              );
-            })}
+                  "
+                </span>
+              </li>
+            ))}
           </ul>
         </div>
 
         {/* Payment Section */}
-        <div className="make-payment bg-slate-900 rounded-xl p-6 text-white shadow-lg flex flex-col gap-4">
+        <div className="make-payment bg-slate-900 rounded-xl p-4 sm:p-6 text-white shadow-lg flex flex-col gap-4">
           {/* Header Section */}
-          <div className="py-3 border-b border-gray-700 flex flex-row justify-between items-center">
-            <h2 className="text-xl font-semibold flex items-center">
+          <div className="py-3 border-b border-gray-700 flex flex-col sm:flex-row justify-between items-center">
+            <h2 className="text-lg sm:text-xl font-semibold flex items-center">
               <span className="mr-2 text-2xl">💳</span> Make a Payment
             </h2>
-            <p className="text-gray-400 text-sm text-right">
+            <p className="text-gray-400 text-xs sm:text-sm text-center">
               Support us by making a donation.
             </p>
           </div>
 
-          {/* Input & Pay Button on Same Line */}
+          {/* Input & Pay Button */}
           <div className="flex flex-col gap-3">
             <input
               onChange={handleChange}
@@ -212,7 +213,7 @@ const PaymentPage = ({ username }) => {
               type="text"
               name="name"
               placeholder="Enter Name"
-              className="no-spinner w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+              className="w-full p-2 sm:p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:outline-none text-xs sm:text-sm"
             />
             <input
               onChange={handleChange}
@@ -220,7 +221,7 @@ const PaymentPage = ({ username }) => {
               type="text"
               name="message"
               placeholder="Enter Message"
-              className="no-spinner w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+              className="w-full p-2 sm:p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:outline-none text-xs sm:text-sm"
             />
             <input
               onChange={handleChange}
@@ -228,16 +229,17 @@ const PaymentPage = ({ username }) => {
               type="text"
               name="amount"
               placeholder="Enter Amount"
-              className="no-spinner w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:outline-none"
+              className="w-full p-2 sm:p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:outline-none text-xs sm:text-sm"
             />
             <button
               onClick={() => {
                 pay(paymentform.amount);
               }}
-              className="cursor-pointer bg-gradient-to-r from-violet-500 to-purple-600 
-             hover:from-purple-500 hover:to-violet-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 ease-in shadow-md whitespace-nowrap focus:outline-2 focus:outline-violet-500 focus:outline-offset-2 disabled:cursor-not-allowed"
+              className="cursor-pointer bg-gradient-to-r from-violet-500 to-purple-600 hover:from-purple-500 hover:to-violet-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-all duration-200 ease-in shadow-md whitespace-nowrap focus:outline-2 focus:outline-violet-500 focus:outline-offset-2 disabled:cursor-not-allowed text-xs sm:text-sm"
               disabled={
-                paymentform.name?.length < 3 || paymentform.message?.length < 3 || paymentform.amount?.length < 1
+                paymentform.name?.length < 3 ||
+                paymentform.message?.length < 3 ||
+                paymentform.amount?.length < 1
               }
             >
               Pay Now
@@ -245,22 +247,22 @@ const PaymentPage = ({ username }) => {
           </div>
 
           {/* Quick Pay Options */}
-          <div className="flex gap-3 justify-center">
+          <div className="flex gap-2 sm:gap-3 justify-center">
             <button
               onClick={() => pay(10)}
-              className="cursor-pointer bg-gray-800 hover:bg-gray-700 text-white px-5 py-3 rounded-lg transition-all duration-200 ease-in outline-none"
+              className="cursor-pointer bg-gray-800 hover:bg-gray-700 text-white px-3 sm:px-5 py-2 rounded-lg transition-all duration-200 ease-in outline-none text-xs sm:text-sm"
             >
               Pay ₹10
             </button>
             <button
               onClick={() => pay(20)}
-              className="cursor-pointer bg-gray-800 hover:bg-gray-700 text-white px-5 py-3 rounded-lg transition-all duration-200 ease-in outline-none"
+              className="cursor-pointer bg-gray-800 hover:bg-gray-700 text-white px-3 sm:px-5 py-2 rounded-lg transition-all duration-200 ease-in outline-none text-xs sm:text-sm"
             >
               Pay ₹20
             </button>
             <button
               onClick={() => pay(30)}
-              className="cursor-pointer bg-gray-800 hover:bg-gray-700 text-white px-5 py-3 rounded-lg transition-all duration-200 ease-in outline-none"
+              className="cursor-pointer bg-gray-800 hover:bg-gray-700 text-white px-3 sm:px-5 py-2 rounded-lg transition-all duration-200 ease-in outline-none text-xs sm:text-sm"
             >
               Pay ₹30
             </button>
